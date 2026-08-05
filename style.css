@@ -1,0 +1,138 @@
+/* ------------------------------
+   HomeC0in v1.0
+------------------------------ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: #f3f6fb;
+    color: #222;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #2563eb;
+}
+
+.balance-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,.1);
+    margin-bottom: 25px;
+}
+
+.balance-card h2 {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.balance-card h3 {
+    font-size: 40px;
+    color: #16a34a;
+}
+
+.buttons {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.buttons button,
+#earnPage button,
+#expensePage button,
+#parentPage button {
+
+    width: 100%;
+    padding: 15px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #2563eb;
+    color: white;
+
+    font-size: 16px;
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.buttons button:hover,
+#earnPage button:hover,
+#expensePage button:hover,
+#parentPage button:hover {
+
+    background: #1d4ed8;
+    transform: scale(1.02);
+
+}
+
+#earnPage,
+#expensePage,
+#parentPage,
+#homePage {
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,.1);
+
+}
+
+#earnPage button,
+#expensePage button {
+
+    margin-top: 10px;
+
+}
+
+input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin: 15px 0;
+
+    border-radius: 10px;
+
+    border: 2px solid #ddd;
+
+    font-size: 16px;
+
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width:600px){
+
+body{
+    padding:15px;
+}
+
+.balance-card h3{
+    font-size:32px;
+}
+
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeC0in</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🪙 HomeC0in</h1>
+
+        <div class="balance-card">
+            <h2>Balance</h2>
+            <h3 id="balance">0 HC</h3>
+        </div>
+
+        <div class="buttons">
+
+            <button id="earnBtn">
+                🧹 Earn
+            </button>
+
+            <button id="expenseBtn">
+                💸 Expenses
+            </button>
+
+            <button id="parentBtn">
+                🔒 Parent Mode
+            </button>
+
+        </div>
+
+        <!-- HOME PAGE -->
+        <div id="homePage">
+
+            <h2>Welcome!</h2>
+
+            <p>
+                Earn HomeCoins by helping around the house.
+            </p>
+
+        </div>
+
+        <!-- EARN PAGE -->
+        <div id="earnPage" class="hidden">
+
+            <h2>Earn HomeCoins</h2>
+
+            <button onclick="addCoins(40)">
+                Wash Dishes (+40 HC)
+            </button>
+
+            <button onclick="addCoins(50)">
+                Vacuum (+50 HC)
+            </button>
+
+            <button onclick="addCoins(150)">
+                Cook Dinner (+150 HC)
+            </button>
+
+            <button onclick="addCoins(100)">
+                Clean Bathroom (+100 HC)
+            </button>
+
+        </div>
+
+        <!-- EXPENSE PAGE -->
+        <div id="expensePage" class="hidden">
+
+            <h2>Expenses</h2>
+
+            <button onclick="addCoins(-5)">
+                Light Left On (-5 HC)
+            </button>
+
+            <button onclick="addCoins(-5)">
+                Fan Left On (-5 HC)
+            </button>
+
+            <button onclick="addCoins(-20)">
+                Missed Schedule (-20 HC)
+            </button>
+
+        </div>
+
+        <!-- PARENT PAGE -->
+        <div id="parentPage" class="hidden">
+
+            <h2>Parent Mode</h2>
+
+            <input
+                type="password"
+                id="pin"
+                placeholder="Enter PIN">
+
+            <button>
+                Login
+            </button>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="script.js"></script>
+
+</body>
+
+</html>
