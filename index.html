@@ -182,18 +182,91 @@
 
         <div id="parentPage" class="hidden">
 
-            <h2>Parent Mode</h2>
+    <h2>🔒 Parent Mode</h2>
 
-            <input
-                type="password"
-                id="pin"
-                placeholder="Enter Parent PIN">
+    <!-- Login -->
+    <div id="loginSection">
 
-            <button id="loginBtn">
-                Login
-            </button>
+        <input
+            type="password"
+            id="pin"
+            placeholder="Enter Parent PIN">
 
-        </div>
+        <button id="loginBtn">
+            Unlock
+        </button>
+
+        <p id="loginMessage"></p>
+
+    </div>
+
+    <!-- First Time Setup -->
+    <div id="setupSection" class="hidden">
+
+        <h3>Create a New Parent PIN</h3>
+
+        <input
+            type="password"
+            id="newPin"
+            placeholder="New PIN">
+
+        <input
+            type="password"
+            id="confirmPin"
+            placeholder="Confirm PIN">
+
+        <button id="savePinBtn">
+            Save PIN
+        </button>
+
+        <p id="setupMessage"></p>
+
+    </div>
+
+    <!-- Parent Dashboard -->
+    <div id="parentDashboard" class="hidden">
+
+        <h3>Parent Controls</h3>
+
+        <button onclick="addCoins(10, 'Parent Adjustment')">
+            +10 HC
+        </button>
+
+        <button onclick="addCoins(50, 'Parent Adjustment')">
+            +50 HC
+        </button>
+
+        <button onclick="addCoins(100, 'Parent Adjustment')">
+            +100 HC
+        </button>
+
+        <hr>
+
+        <button onclick="addCoins(-10, 'Parent Adjustment')">
+            -10 HC
+        </button>
+
+        <button onclick="addCoins(-50, 'Parent Adjustment')">
+            -50 HC
+        </button>
+
+        <button onclick="addCoins(-100, 'Parent Adjustment')">
+            -100 HC
+        </button>
+
+        <hr>
+
+        <button id="resetBalanceBtn">
+            Reset Balance
+        </button>
+
+        <button id="clearHistoryBtn">
+            Clear History
+        </button>
+
+    </div>
+
+</div>
 
     </div>
 
