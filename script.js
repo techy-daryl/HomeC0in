@@ -4,7 +4,12 @@
 
 // Current balance
 let balance = 0;
+// history
 let history = [];
+// parent pin
+let parentPin = 1111;
+// first setup
+let firstSetup = true;
 
 // HTML elements
 const balanceText = document.getElementById("balance");
@@ -28,7 +33,8 @@ import { db } from "./firebase-config.js";
 import {
     doc,
     getDoc,
-    setDoc
+    setDoc,
+    updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 //-------------------------------
@@ -47,10 +53,21 @@ async function saveBalance() {
 
 async function loadBalance() {
 
-    const snap = await getDoc(doc(db, "homecoin", "balance"));
+    // Load balance
+    const balanceSnap = await getDoc(doc(db, "homecoin", "balance"));
 
-    if (snap.exists()) {
-        balance = snap.data().coins;
+    if (balanceSnap.exists()) {
+        balance = balanceSnap.data().coins;
+    }
+
+    // Load settings
+    const settingsSnap = await getDoc(doc(db, "homecoin", "settings"));
+
+    if (settingsSnap.exists()) {
+
+        parentPin = settingsSnap.data().parentPin;
+        firstSetup = settingsSnap.data().firstSetup;
+
     }
 
     updateBalance();
