@@ -20,76 +20,166 @@
             <h3 id="balance">0 HC</h3>
         </div>
 
+        <!-- Navigation Buttons -->
         <div class="buttons">
-
-            <button id="earnBtn">
-                🧹 Earn
-            </button>
-
-            <button id="expenseBtn">
-                💸 Expenses
-            </button>
-
-            <button id="parentBtn">
-                🔒 Parent Mode
-            </button>
-
+            <button id="earnBtn">🧹 Earn</button>
+            <button id="expenseBtn">💸 Expenses</button>
+            <button id="historyBtn">📜 History</button>
+            <button id="parentBtn">🔒 Parent Mode</button>
         </div>
 
-        <!-- HOME PAGE -->
-        <div id="homePage">
+        <!-- ================= HOME PAGE ================= -->
 
+        <div id="homePage">
             <h2>Welcome!</h2>
 
             <p>
                 Earn HomeCoins by helping around the house.
             </p>
-
         </div>
 
-        <!-- EARN PAGE -->
+        <!-- ================= EARN PAGE ================= -->
+
         <div id="earnPage" class="hidden">
 
             <h2>Earn HomeCoins</h2>
 
-            <button onclick="addCoins(40)">
+            <button onclick="addCoins(10,'Fill Dad\'s Water Bottle')">
+                Fill Dad's Water Bottle (+10 HC)
+            </button>
+
+            <button onclick="addCoins(15,'Refill Water Dispenser')">
+                Refill Water Dispenser (+15 HC)
+            </button>
+
+            <button onclick="addCoins(10,'Make Bed')">
+                Make Bed (+10 HC)
+            </button>
+
+            <button onclick="addCoins(20,'Empty Dishwasher')">
+                Empty Dishwasher (+20 HC)
+            </button>
+
+            <button onclick="addCoins(25,'Load Dishwasher')">
+                Load Dishwasher (+25 HC)
+            </button>
+
+            <button onclick="addCoins(40,'Wash Dishes')">
                 Wash Dishes (+40 HC)
             </button>
 
-            <button onclick="addCoins(50)">
+            <button onclick="addCoins(50,'Vacuum')">
                 Vacuum (+50 HC)
             </button>
 
-            <button onclick="addCoins(150)">
+            <button onclick="addCoins(25,'Take Out Trash')">
+                Take Out Trash (+25 HC)
+            </button>
+
+            <button onclick="addCoins(20,'Wipe Counters')">
+                Wipe Counters (+20 HC)
+            </button>
+
+            <button onclick="addCoins(40,'Fold Laundry')">
+                Fold Laundry (+40 HC)
+            </button>
+
+            <button onclick="addCoins(100,'Clean Bathroom')">
+                Clean Bathroom (+100 HC)
+            </button>
+
+            <button onclick="addCoins(200,'Clean Garage')">
+                Clean Garage (+200 HC)
+            </button>
+
+            <button onclick="addCoins(150,'Cook Dinner')">
                 Cook Dinner (+150 HC)
             </button>
 
-            <button onclick="addCoins(100)">
-                Clean Bathroom (+100 HC)
+            <button onclick="addCoins(50,'Clean Up After Cooking')">
+                Clean Up After Cooking (+50 HC)
+            </button>
+
+            <button onclick="addCoins(50,'30 Minutes Coding')">
+                30 Minutes Coding (+50 HC)
+            </button>
+
+            <button onclick="addCoins(50,'30 Minutes Math')">
+                30 Minutes Math (+50 HC)
+            </button>
+
+            <button onclick="addCoins(30,'30 Minutes Reading')">
+                30 Minutes Reading (+30 HC)
+            </button>
+
+            <button onclick="addCoins(40,'30 Minutes Violin')">
+                30 Minutes Violin (+40 HC)
+            </button>
+
+            <button onclick="addCoins(50,'Finish Homework')">
+                Finish Homework (+50 HC)
+            </button>
+
+            <button onclick="addCoins(100,'Complete Daily Schedule')">
+                Complete Daily Schedule (+100 HC)
+            </button>
+
+            <button onclick="addCoins(75,'Organize Room')">
+                Organize Room (+75 HC)
+            </button>
+
+            <button onclick="addCoins(30,'Organize Desk')">
+                Organize Desk (+30 HC)
+            </button>
+
+            <button onclick="addCoins(300,'Complete Coding / ESP32 Project')">
+                Complete Coding / ESP32 Project (+300 HC)
             </button>
 
         </div>
 
-        <!-- EXPENSE PAGE -->
+        <!-- ================= EXPENSE PAGE ================= -->
+
         <div id="expensePage" class="hidden">
 
             <h2>Expenses</h2>
 
-            <button onclick="addCoins(-5)">
-                Light Left On (-5 HC)
+            <button onclick="addCoins(-5,'Left Lights On')">
+                Left Lights On (-5 HC)
             </button>
 
-            <button onclick="addCoins(-5)">
-                Fan Left On (-5 HC)
+            <button onclick="addCoins(-5,'Left Fan On')">
+                Left Fan On (-5 HC)
             </button>
 
-            <button onclick="addCoins(-20)">
-                Missed Schedule (-20 HC)
+            <button onclick="addCoins(-20,'Did not Follow Schedule')">
+                Didn't Follow Schedule (-20 HC)
+            </button>
+
+            <button onclick="addCoins(-25,'Did not Clean Up After Myself')">
+                Didn't Clean Up After Myself (-25 HC)
+            </button>
+
+            <button onclick="addCoins(-50,'Major Mess')">
+                Major Mess (-50 HC)
             </button>
 
         </div>
 
-        <!-- PARENT PAGE -->
+        <!-- ================= HISTORY PAGE ================= -->
+
+        <div id="historyPage" class="hidden">
+
+            <h2>History</h2>
+
+            <div id="historyList">
+                No history yet.
+            </div>
+
+        </div>
+
+        <!-- ================= PARENT PAGE ================= -->
+
         <div id="parentPage" class="hidden">
 
             <h2>Parent Mode</h2>
@@ -97,9 +187,9 @@
             <input
                 type="password"
                 id="pin"
-                placeholder="Enter PIN">
+                placeholder="Enter Parent PIN">
 
-            <button>
+            <button id="loginBtn">
                 Login
             </button>
 

@@ -4,6 +4,7 @@
 
 // Current balance
 let balance = 0;
+let history = [];
 
 // HTML elements
 const balanceText = document.getElementById("balance");
@@ -16,6 +17,9 @@ const parentPage = document.getElementById("parentPage");
 const earnBtn = document.getElementById("earnBtn");
 const expenseBtn = document.getElementById("expenseBtn");
 const parentBtn = document.getElementById("parentBtn");
+const historyBtn = document.getElementById("historyBtn");
+const historyPage = document.getElementById("historyPage");
+const historyList = document.getElementById("historyList");
 
 //-------------------------------
 
@@ -65,11 +69,48 @@ function updateBalance() {
 
 }
 
-function addCoins(amount) {
+function addCoins(amount, task = "Unknown Task") {
 
     balance += amount;
 
+    history.unshift({
+
+        amount: amount,
+        task: task,
+        time: new Date().toLocaleString()
+
+    });
+
+    updateHistory();
+
     updateBalance();
+
+}
+
+function updateHistory() {
+
+    historyList.innerHTML = "";
+
+    if (history.length === 0) {
+
+        historyList.innerHTML = "No history yet.";
+
+        return;
+
+    }
+
+    history.forEach(item => {
+
+        const div = document.createElement("div");
+
+        div.innerHTML =
+        `<b>${item.amount > 0 ? "+" : ""}${item.amount} HC</b><br>
+        ${item.task}<br>
+        <small>${item.time}</small><hr>`;
+
+        historyList.appendChild(div);
+
+    });
 
 }
 
@@ -107,6 +148,14 @@ parentBtn.onclick = function () {
     hidePages();
 
     parentPage.classList.remove("hidden");
+
+};
+
+historyBtn.onclick = function () {
+
+    hidePages();
+
+    historyPage.classList.remove("hidden");
 
 };
 
