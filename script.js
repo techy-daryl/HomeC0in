@@ -17,20 +17,36 @@ const earnBtn = document.getElementById("earnBtn");
 const expenseBtn = document.getElementById("expenseBtn");
 const parentBtn = document.getElementById("parentBtn");
 
+//-------------------------------
+
+import { db } from "./firebase-config.js";
+
+import {
+    doc,
+    getDoc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+//-------------------------------
+
 // ------------------------------
 // Save & Load
 // ------------------------------
 
-function saveBalance() {
-    localStorage.setItem("homecoinBalance", balance);
+async function saveBalance() {
+
+    await setDoc(doc(db, "homecoin", "balance"), {
+        coins: balance
+    });
+
 }
 
-function loadBalance() {
+async function loadBalance() {
 
-    const saved = localStorage.getItem("homecoinBalance");
+    const snap = await getDoc(doc(db, "homecoin", "balance"));
 
-    if (saved !== null) {
-        balance = Number(saved);
+    if (snap.exists()) {
+        balance = snap.data().coins;
     }
 
     updateBalance();
@@ -99,3 +115,4 @@ parentBtn.onclick = function () {
 // ------------------------------
 
 loadBalance();
+window.addCoins = addCoins;
