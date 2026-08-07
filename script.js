@@ -60,7 +60,12 @@ import { db } from "./firebase-config.js";
 import {
     doc,
     getDoc,
-    setDoc
+    setDoc,
+    addDoc,
+    collection,
+    getDocs,
+    updateDoc,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 //-------------------------------
@@ -86,6 +91,8 @@ async function loadBalance() {
         balance = balanceSnap.data().coins;
     }
 
+    
+
     // Load settings
     const settingsSnap = await getDoc(doc(db, "homecoin", "settings"));
 
@@ -100,19 +107,32 @@ async function loadBalance() {
 
 }
 
+async function loadRequests() {
+
+    requests = [];
+
+    const snapshot = await getDocs(collection(db, "requests"));
+
+    snapshot.forEach((docSnap) => {
+
+        requests.push({
+            id: docSnap.id,
+            ...docSnap.data()
+        });
+
+    });
+
+    updateRequests();
+
+}
+
 // ------------------------------
 // Balance
 // ------------------------------
 
-function updateBalance() {
-
-    balanceText.innerHTML = balance + " HC";
-
-    saveBalance();
-
-}
-
-// ------- requests --------->
+// ------------------------------
+// Requests
+// ------------------------------
 
 function updateRequests() {
 
@@ -140,7 +160,7 @@ function updateRequests() {
         } else {
 
             buttonHTML = `
-                <p>✅ Accepted</p>
+                <p>✅ ${request.status}</p>
             `;
 
         }
@@ -160,6 +180,29 @@ function updateRequests() {
         `;
 
     });
+
+}
+
+async function acceptRequest(index) {
+
+    const request = requests[index];
+
+    await updateDoc(
+        doc(db, "requests", request.id),
+        {
+            status: "Accepted"
+        }
+    );
+
+     await loadRequests();
+
+}
+
+function updateBalance() {
+
+    balanceText.textContent = balance + " HC";
+
+    saveBalance();
 
 }
 
@@ -289,7 +332,7 @@ logoutBtn.onclick = function () {
 
 };
 
-createRequestBtn.onclick = function () {
+createRequestBtn.onclick = async function () {
 
     const task = requestTask.value.trim();
     const reward = Number(requestReward.value);
@@ -299,28 +342,21 @@ createRequestBtn.onclick = function () {
         return;
     }
 
-    requests.push({
-        task,
-        reward,
-        status: "New"
-    });
+    await addDoc(collection(db, "requests"), {
 
-    updateRequests();
+        task: task,
+        reward: reward,
+        status: "New",
+        created: serverTimestamp()
+
+    });
 
     requestTask.value = "";
     requestReward.value = "";
 
+    loadRequests();
+
 };
-
-function acceptRequest(index) {
-
-    requests[index].status = "Accepted";
-
-    alert("Request accepted!");
-
-    updateRequests();
-
-}
 
 // ------------------------------
 // Start
@@ -404,6 +440,7 @@ loginBtn.onclick = async function () {
 };
 
 loadBalance();
+loadRequests();
 
 window.addCoins = addCoins;
 window.acceptRequest = acceptRequest;
