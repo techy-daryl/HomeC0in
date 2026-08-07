@@ -10,6 +10,8 @@ let history = [];
 let parentPin = 1111;
 // first setup
 let firstSetup = true;
+// requests's temporary array
+let requests = [];
 
 // HTML elements
 const balanceText = document.getElementById("balance");
@@ -42,6 +44,14 @@ const setupMessage = document.getElementById("setupMessage");
 const logoutBtn = document.getElementById("logoutBtn");
 const resetBalanceBtn = document.getElementById("resetBalanceBtn");
 const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+
+const requestsBtn = document.getElementById("requestsBtn");
+const requestsPage = document.getElementById("requestsPage");
+const requestsList = document.getElementById("requestsList");
+
+const requestTask = document.getElementById("requestTask");
+const requestReward = document.getElementById("requestReward");
+const createRequestBtn = document.getElementById("createRequestBtn");
 
 //-------------------------------
 
@@ -102,6 +112,57 @@ function updateBalance() {
 
 }
 
+// ------- requests --------->
+
+function updateRequests() {
+
+    requestsList.innerHTML = "";
+
+    if (requests.length === 0) {
+
+        requestsList.innerHTML = "<p>No requests yet.</p>";
+        return;
+
+    }
+
+    requests.forEach((request, index) => {
+
+        let buttonHTML = "";
+
+        if (request.status === "New") {
+
+            buttonHTML = `
+                <button onclick="acceptRequest(${index})">
+                    Accept
+                </button>
+            `;
+
+        } else {
+
+            buttonHTML = `
+                <p>✅ Accepted</p>
+            `;
+
+        }
+
+        requestsList.innerHTML += `
+            <div class="request-card">
+
+                <h3>${request.task}</h3>
+
+                <p><b>${request.reward} HC</b></p>
+
+                <p>Status: ${request.status}</p>
+
+                ${buttonHTML}
+
+            </div>
+        `;
+
+    });
+
+}
+
 function addCoins(amount, task = "Unknown Task") {
 
     balance += amount;
@@ -157,7 +218,7 @@ function hidePages() {
     earnPage.classList.add("hidden");
     expensePage.classList.add("hidden");
     parentPage.classList.add("hidden");
-
+    requestsPage.classList.add("hidden");
 }
 
 earnBtn.onclick = function () {
@@ -192,6 +253,14 @@ historyBtn.onclick = function () {
 
 };
 
+requestsBtn.onclick = function () {
+
+    hidePages();
+
+    requestsPage.classList.remove("hidden");
+
+};
+
 resetBalanceBtn.onclick = async function () {
 
     balance = 0;
@@ -219,6 +288,39 @@ logoutBtn.onclick = function () {
     loginMessage.textContent = "";
 
 };
+
+createRequestBtn.onclick = function () {
+
+    const task = requestTask.value.trim();
+    const reward = Number(requestReward.value);
+
+    if (task === "" || reward <= 0) {
+        alert("Please enter a valid task and reward.");
+        return;
+    }
+
+    requests.push({
+        task,
+        reward,
+        status: "New"
+    });
+
+    updateRequests();
+
+    requestTask.value = "";
+    requestReward.value = "";
+
+};
+
+function acceptRequest(index) {
+
+    requests[index].status = "Accepted";
+
+    alert("Request accepted!");
+
+    updateRequests();
+
+}
 
 // ------------------------------
 // Start
@@ -302,4 +404,6 @@ loginBtn.onclick = async function () {
 };
 
 loadBalance();
+
 window.addCoins = addCoins;
+window.acceptRequest = acceptRequest;

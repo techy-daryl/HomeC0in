@@ -25,7 +25,9 @@
             <button id="earnBtn">🧹 Earn</button>
             <button id="expenseBtn">💸 Expenses</button>
             <button id="historyBtn">📜 History</button>
+            <button id="requestsBtn">📋 Requests</button>
             <button id="parentBtn">🔒 Parent Mode</button>
+
         </div>
 
         <!-- ================= HOME PAGE ================= -->
@@ -168,16 +170,27 @@
 
         <!-- ================= HISTORY PAGE ================= -->
 
-        <div id="historyPage" class="hidden">
+            <div id="historyPage" class="hidden">
 
-            <h2>History</h2>
+                <h2>History</h2>
 
-            <div id="historyList">
-                No history yet.
+                <div id="historyList">
+                    No history yet.
+                </div>
+
+            </div>
+        <!-- ================== Requests ================== -->
+        <div id="requestsPage" class="hidden">
+
+            <h2>📋 Parent Requests</h2>
+
+            <div id="requestsList">
+
+                <p>No requests yet.</p>
+
             </div>
 
         </div>
-
         <!-- ================= PARENT PAGE ================= -->
 
         <div id="parentPage" class="hidden">
@@ -253,6 +266,22 @@
         <button onclick="addCoins(-100, 'Parent Adjustment')">
             -100 HC
         </button>
+
+        <h3>📋 Create Request</h3>
+
+            <input
+                type="text"
+                id="requestTask"
+                placeholder="Task Name">
+
+            <input
+                type="number"
+                id="requestReward"
+                placeholder="Reward (HC)">
+
+            <button id="createRequestBtn">
+                Create Request
+            </button>
 
         <hr>
 
