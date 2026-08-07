@@ -26,6 +26,19 @@ const historyBtn = document.getElementById("historyBtn");
 const historyPage = document.getElementById("historyPage");
 const historyList = document.getElementById("historyList");
 
+const pinInput = document.getElementById("pin");
+const loginBtn = document.getElementById("loginBtn");
+const loginMessage = document.getElementById("loginMessage");
+
+const loginSection = document.getElementById("loginSection");
+const setupSection = document.getElementById("setupSection");
+const parentDashboard = document.getElementById("parentDashboard");
+
+const newPinInput = document.getElementById("newPin");
+const confirmPinInput = document.getElementById("confirmPin");
+const savePinBtn = document.getElementById("savePinBtn");
+const setupMessage = document.getElementById("setupMessage");
+
 //-------------------------------
 
 import { db } from "./firebase-config.js";
@@ -33,8 +46,7 @@ import { db } from "./firebase-config.js";
 import {
     doc,
     getDoc,
-    setDoc,
-    updateDoc
+    setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 //-------------------------------
@@ -179,6 +191,83 @@ historyBtn.onclick = function () {
 // ------------------------------
 // Start
 // ------------------------------
+
+savePinBtn.onclick = async function () {
+
+    const newPin = Number(newPinInput.value);
+    const confirmPin = Number(confirmPinInput.value);
+
+    if (newPin !== confirmPin) {
+        setupMessage.textContent = "❌ PINs do not match.";
+        return;
+    }
+
+    if (newPin < 1000 || newPin > 9999) {
+        setupMessage.textContent = "❌ PIN must be exactly 4 digits.";
+        return;
+    }
+
+    try {
+
+        await setDoc(
+            doc(db, "homecoin", "settings"),
+            {
+                parentPin: newPin,
+                firstSetup: false
+            },
+            { merge: true }
+        );
+
+        parentPin = newPin;
+        firstSetup = false;
+
+        setupMessage.textContent = "✅ PIN saved successfully!";
+
+        setupSection.classList.add("hidden");
+        parentDashboard.classList.remove("hidden");
+
+    } catch (error) {
+
+        console.error(error);
+
+        setupMessage.textContent =
+            error.code + "\n" + error.message;
+
+    }
+
+};
+
+loginBtn.onclick = async function () {
+
+    // Always get the latest settings from Firestore
+    const settingsSnap = await getDoc(doc(db, "homecoin", "settings"));
+
+    if (settingsSnap.exists()) {
+        parentPin = settingsSnap.data().parentPin;
+        firstSetup = settingsSnap.data().firstSetup;
+    } else {
+        loginMessage.textContent = "❌ Settings document not found.";
+        return;
+    }
+
+    const enteredPin = Number(pinInput.value);
+
+    if (enteredPin !== parentPin) {
+        loginMessage.textContent = "❌ Incorrect PIN";
+        return;
+    }
+
+    loginMessage.textContent = "";
+
+    loginSection.classList.add("hidden");
+
+    if (firstSetup) {
+        setupSection.classList.remove("hidden");
+    } else {
+        parentDashboard.classList.remove("hidden");
+    }
+
+};
 
 loadBalance();
 window.addCoins = addCoins;
