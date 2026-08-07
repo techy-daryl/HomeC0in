@@ -39,6 +39,10 @@ const confirmPinInput = document.getElementById("confirmPin");
 const savePinBtn = document.getElementById("savePinBtn");
 const setupMessage = document.getElementById("setupMessage");
 
+const logoutBtn = document.getElementById("logoutBtn");
+const resetBalanceBtn = document.getElementById("resetBalanceBtn");
+const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+
 //-------------------------------
 
 import { db } from "./firebase-config.js";
@@ -185,6 +189,34 @@ historyBtn.onclick = function () {
     hidePages();
 
     historyPage.classList.remove("hidden");
+
+};
+
+resetBalanceBtn.onclick = async function () {
+
+    balance = 0;
+
+    updateBalance();
+
+};
+
+clearHistoryBtn.onclick = function () {
+
+    history = [];
+
+    updateHistory();
+
+};
+
+logoutBtn.onclick = function () {
+
+    parentDashboard.classList.add("hidden");
+
+    loginSection.classList.remove("hidden");
+
+    pinInput.value = "";
+
+    loginMessage.textContent = "";
 
 };
 
