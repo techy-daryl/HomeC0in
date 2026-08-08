@@ -49,6 +49,10 @@ const requestsBtn = document.getElementById("requestsBtn");
 const requestsPage = document.getElementById("requestsPage");
 const requestsList = document.getElementById("requestsList");
 
+const shopBtn = document.getElementById("shopBtn");
+const shopPage = document.getElementById("shopPage");
+const shopList = document.getElementById("shopList");
+
 const requestTask = document.getElementById("requestTask");
 const requestReward = document.getElementById("requestReward");
 const createRequestBtn = document.getElementById("createRequestBtn");
@@ -262,6 +266,8 @@ function hidePages() {
     expensePage.classList.add("hidden");
     parentPage.classList.add("hidden");
     requestsPage.classList.add("hidden");
+    shopPage.classList.add("hidden");
+
 }
 
 earnBtn.onclick = function () {
@@ -301,6 +307,16 @@ requestsBtn.onclick = function () {
     hidePages();
 
     requestsPage.classList.remove("hidden");
+
+};
+
+shopBtn.onclick = function () {
+
+    hidePages();
+
+    shopPage.classList.remove("hidden");
+
+    loadShop();
 
 };
 
@@ -357,6 +373,62 @@ createRequestBtn.onclick = async function () {
     loadRequests();
 
 };
+
+// ------------------------------
+// Shop
+// ------------------------------
+
+async function loadShop() {
+
+    shopList.innerHTML = "<p>Loading shop...</p>";
+
+    try {
+
+        const snapshot = await getDocs(collection(db, "shop"));
+
+        shopList.innerHTML = "";
+
+        if (snapshot.empty) {
+
+            shopList.innerHTML = "<p>No products available.</p>";
+            return;
+
+        }
+
+        snapshot.forEach((docSnap) => {
+
+            const product = docSnap.data();
+
+            const card = document.createElement("div");
+
+            card.className = "shop-card";
+
+            card.innerHTML = `
+                <h3>${product.name}</h3>
+
+                <p>${product.description || ""}</p>
+
+                <p><b>${product.price} HC</b></p>
+
+                <button>
+                    Buy
+                </button>
+            `;
+
+            shopList.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        console.error("Shop error:", error);
+
+        shopList.innerHTML =
+            "<p>❌ Could not load shop.</p>";
+
+    }
+
+}
 
 // ------------------------------
 // Start
