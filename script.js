@@ -380,11 +380,13 @@ createRequestBtn.onclick = async function () {
 
 async function buyProduct(product) {
 
+    // Check if you have enough HC
     if (balance < product.price) {
         alert("❌ You don't have enough HomeCoins!");
         return;
     }
 
+    // Confirm purchase
     const confirmed = confirm(
         `Buy ${product.name} for ${product.price} HC?`
     );
@@ -393,6 +395,54 @@ async function buyProduct(product) {
         return;
     }
 
+    // If it's an investment, save ownership
+    if (product.type === "investment") {
+
+        const investmentRef = doc(
+            db,
+            "homecoin",
+            "investments"
+        );
+
+        const investmentSnap = await getDoc(investmentRef);
+
+        let investments = {};
+
+        if (investmentSnap.exists()) {
+            investments = investmentSnap.data();
+        }
+
+        // Don't allow buying the same permanent investment twice
+        if (
+            product.benefit !== "double_money_7d" &&
+            investments[product.benefit] === true
+        ) {
+            alert("⚠️ You already own this investment!");
+            return;
+        }
+
+        // Double Money gets an expiration date
+        if (product.benefit === "double_money_7d") {
+
+            const expiresAt =
+                Date.now() + (7 * 24 * 60 * 60 * 1000);
+
+            investments[product.benefit] = expiresAt;
+
+        } else {
+
+            investments[product.benefit] = true;
+
+        }
+
+        await setDoc(
+            investmentRef,
+            investments,
+            { merge: true }
+        );
+    }
+
+    // Take the HC
     balance -= product.price;
 
     history.unshift({
@@ -433,14 +483,6 @@ async function loadShop() {
             card.className = "shop-card";
 
             card.innerHTML = `
-                ${product.image ? `
-                    <img
-                        src="${product.image}"
-                        alt="${product.name}"
-                        class="shop-image"
-                    >
-                ` : ""}
-
                 <h3>${product.name}</h3>
 
                 <p>${product.description || ""}</p>
@@ -452,9 +494,7 @@ async function loadShop() {
                 </button>
             `;
 
-            const buyButton = card.querySelector(".buy-button");
-
-            buyButton.onclick = function () {
+            card.querySelector(".buy-button").onclick = function () {
                 buyProduct(product);
             };
 
@@ -470,7 +510,6 @@ async function loadShop() {
             "<p>❌ Could not load shop.</p>";
 
     }
-
 }
 
 // ------------------------------
