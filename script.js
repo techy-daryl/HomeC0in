@@ -404,6 +404,14 @@ async function loadShop() {
             card.className = "shop-card";
 
             card.innerHTML = `
+                ${product.image ? `
+                    <img
+                        src="${product.image}"
+                        alt="${product.name}"
+                        class="shop-image"
+                    >
+                ` : ""}
+
                 <h3>${product.name}</h3>
 
                 <p>${product.description || ""}</p>
@@ -411,7 +419,7 @@ async function loadShop() {
                 <p><b>${product.price} HC</b></p>
 
                 <button>
-                    Buy
+                     Buy
                 </button>
             `;
 

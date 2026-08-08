@@ -135,4 +135,20 @@ body{
     font-size:32px;
 }
 
+.shop-card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.shop-image {
+    width: 200px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
 }
