@@ -210,22 +210,112 @@ function updateBalance() {
 
 }
 
-function addCoins(amount, task = "Unknown Task") {
+async function addCoins(amount, task = "Unknown Task") {
 
-    balance += amount;
+    let finalAmount = amount;
+
+    // Only bonuses apply when EARNING HC
+    if (amount > 0) {
+
+        const investmentRef = doc(
+            db,
+            "homecoin",
+            "investments"
+        );
+
+        const investmentSnap = await getDoc(investmentRef);
+
+        if (investmentSnap.exists()) {
+
+            const investments = investmentSnap.data();
+
+            // 🧹 Cleaning Kit +30%
+            if (
+                investments.cleaning_30 === true &&
+                (
+                    task.includes("Dishwasher") ||
+                    task.includes("Dishes") ||
+                    task.includes("Vacuum") ||
+                    task.includes("Trash") ||
+                    task.includes("Wipe") ||
+                    task.includes("Laundry") ||
+                    task.includes("Bathroom") ||
+                    task.includes("Garage") ||
+                    task.includes("Clean") ||
+                    task.includes("Bed") ||
+                    task.includes("Water")
+                )
+            ) {
+                finalAmount *= 1.30;
+            }
+
+            // 👨‍🍳 Chef Set +30%
+            if (
+                investments.cooking_30 === true &&
+                (
+                    task.includes("Cook") ||
+                    task.includes("Cooking")
+                )
+            ) {
+                finalAmount *= 1.30;
+            }
+
+            // 📚 Study Pass +50%
+            if (
+                investments.learning_50 === true &&
+                (
+                    task.includes("Coding") ||
+                    task.includes("Math") ||
+                    task.includes("Reading") ||
+                    task.includes("Homework")
+                )
+            ) {
+                finalAmount *= 1.50;
+            }
+
+            // 💪 Fitness Band +30%
+            if (
+                investments.exercise_30 === true &&
+                (
+                    task.includes("Exercise") ||
+                    task.includes("Workout") ||
+                    task.includes("Fitness")
+                )
+            ) {
+                finalAmount *= 1.30;
+            }
+
+            // 📅 Schedule Planner +50%
+            if (
+                investments.schedule_50 === true &&
+                task.includes("Daily Schedule")
+            ) {
+                finalAmount *= 1.50;
+            }
+
+            // 💰 Double Money — 2× for 7 days
+            if (
+                investments.double_money_7d &&
+                investments.double_money_7d > Date.now()
+            ) {
+                finalAmount *= 2;
+            }
+        }
+    }
+
+    // Make sure we don't get weird decimal HC
+    finalAmount = Math.round(finalAmount);
+
+    balance += finalAmount;
 
     history.unshift({
-
-        amount: amount,
+        amount: finalAmount,
         task: task,
         time: new Date().toLocaleString()
-
     });
 
     updateHistory();
-
     updateBalance();
-
 }
 
 function updateHistory() {
