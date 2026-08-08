@@ -378,6 +378,35 @@ createRequestBtn.onclick = async function () {
 // Shop
 // ------------------------------
 
+async function buyProduct(product) {
+
+    if (balance < product.price) {
+        alert("❌ You don't have enough HomeCoins!");
+        return;
+    }
+
+    const confirmed = confirm(
+        `Buy ${product.name} for ${product.price} HC?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    balance -= product.price;
+
+    history.unshift({
+        amount: -product.price,
+        task: `Bought ${product.name}`,
+        time: new Date().toLocaleString()
+    });
+
+    updateHistory();
+    updateBalance();
+
+    alert(`✅ You bought ${product.name}!`);
+}
+
 async function loadShop() {
 
     shopList.innerHTML = "<p>Loading shop...</p>";
@@ -418,10 +447,16 @@ async function loadShop() {
 
                 <p><b>${product.price} HC</b></p>
 
-                <button>
-                     Buy
+                <button class="buy-button">
+                    Buy
                 </button>
             `;
+
+            const buyButton = card.querySelector(".buy-button");
+
+            buyButton.onclick = function () {
+                buyProduct(product);
+            };
 
             shopList.appendChild(card);
 
